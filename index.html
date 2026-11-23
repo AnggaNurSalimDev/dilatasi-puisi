@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dilatasi Puisi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE  hening, seperti ruang galeri kosong sebelum karya dipasang
+   IDEA   buku puisi: daftar isi yang tenang, lalu setiap puisi punya kamar sendiri
+   PICTURE puisinya sendiri — wadah tidak menggambar apa pun selain ruang
+   COLOUR putih bersih / malam tinta; tinta hampir hitam; satu abu hangat untuk keterangan
+   TYPE   Newsreader untuk puisi dan judul, Inter kecil untuk navigasi
+   LAYOUT satu kolom sempit di tengah; di HP sama, hanya tepi lebih tipis */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121212);--ink:light-dark(#1a1a1a,#e9e7e3);--muted:light-dark(#77736c,#8f8b84);--rule:light-dark(#e6e3de,#2a2927);--soft:light-dark(#f2f0ec,#1e1e1d)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 "Newsreader",Georgia,serif;overflow-x:clip}
+a{color:inherit}
+.ui{font-family:"Inter",system-ui,sans-serif;font-size:14px}
+.atas{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;max-width:760px;margin:0 auto;padding:28px max(5vw,16px) 0}
+.merek{font-size:22px;font-weight:500;letter-spacing:-.01em;text-decoration:none}
+.nav{display:flex;gap:4px}
+.nav a{text-decoration:none;color:var(--muted);padding:10px 12px;border-radius:6px;min-height:44px;display:inline-flex;align-items:center}
+.nav a[aria-current=page]{color:var(--ink)}
+.nav a:hover{background:var(--soft)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+main{max-width:760px;margin:0 auto;padding:clamp(40px,8vw,96px) max(5vw,16px) 64px}
+.layar[hidden]{display:none}
+h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.pengantar{color:var(--muted);max-width:34em;margin:0 0 48px}
+.daftar{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.daftar li{border-bottom:1px solid var(--rule)}
+.daftar a,.daftar .mati{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:18px 0;text-decoration:none;min-height:44px}
+.daftar a:hover .jdl{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.jdl{font-size:21px}
+.mati .jdl{color:var(--muted)}
+.ket{color:var(--muted);white-space:nowrap}
+.catatan{color:var(--muted);margin-top:20px}
+/* ===== RUANG PUISI: wadah netral; CSS tiap puisi hanya boleh hidup di dalam [data-puisi] ===== */
+.kepala-puisi{margin-bottom:48px}
+.kepala-puisi .ket{display:block;margin-top:4px}
+.ruang{position:relative;padding:8px 0 40px;min-height:40vh}
+.ruang .bait{margin:0 0 1.6em}
+.ruang .baris{display:block;padding-left:1.2em;text-indent:-1.2em}
+.ruang .kata{display:inline;text-indent:0}
+/* sela = ilustrasi di antara bait; disembunyikan saat baca polos */
+.ruang .sela{margin:2.4em auto;max-width:540px;color:var(--ink)}
+.ruang .sela svg{display:block;width:100%;height:auto;overflow:visible}
+.ruang.polos .sela{display:none}
+.alat{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;border-top:1px solid var(--rule);padding-top:20px;margin-top:24px}
+.tombol{font:inherit;background:none;color:var(--ink);border:1px solid var(--rule);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.tombol[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.jalan{display:flex;gap:8px;flex-wrap:wrap}
+.jalan a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;text-decoration:none;color:var(--muted);border-radius:6px}
+.jalan a:hover{background:var(--soft);color:var(--ink)}
+.tanda{display:inline-block;background:var(--soft);color:var(--muted);padding:6px 10px;border-radius:6px;margin-bottom:28px}
+.prosa p{max-width:34em}
+.bawah{max-width:760px;margin:0 auto;padding:24px max(5vw,16px) 40px;color:var(--muted);border-top:1px solid var(--rule)}
+@media(max-width:600px){body{font-size:16px}.jdl{font-size:19px}.daftar a,.daftar .mati{grid-template-columns:minmax(0,1fr)}.ket{white-space:normal}}
+</style>
+<!-- CSS milik puisi yang sedang dibuka disuntikkan di sini; kosong saat "baca polos" -->
+<style id="gaya-puisi"></style>
+</head>
+<body>
+<header class="atas">
+  <a class="merek" href="#beranda">Dilatasi Puisi</a>
+  <nav class="nav ui" aria-label="Utama">
+    <a href="#beranda" data-r="beranda">Puisi</a>
+    <a href="#tentang" data-r="tentang">Tentang</a>
+  </nav>
+</header>
+
+<main>
+  <section class="layar" id="l-beranda">
+    <h1>Puisi yang punya tubuh</h1>
+    <p class="pengantar">Setiap puisi di sini tinggal di ruangnya sendiri. Bentuk, jarak, dan geraknya ikut berbicara.</p>
+    <ul class="daftar" id="daftar"></ul>
+    <p class="catatan ui">Judul abu-abu belum dipindahkan dari blog.</p>
+  </section>
+
+  <section class="layar" id="l-puisi" hidden>
+    <div id="tanda-contoh"></div>
+    <header class="kepala-puisi">
+      <h1 id="p-judul"></h1>
+      <span class="ket ui" id="p-tgl"></span>
+    </header>
+    <article class="ruang" id="ruang"></article>
+    <div class="alat ui">
+      <button class="tombol" id="polos" type="button" aria-pressed="false">Baca polos</button>
+      <div class="jalan" id="jalan"></div>
+    </div>
+  </section>
+
+  <section class="layar prosa" id="l-tentang" hidden>
+    <h1>Tentang</h1>
+    <p>Dilatasi Puisi adalah rumah puisi-puisi Angga Nur Salim. Di sini tampilan bukan hiasan: setiap puisi diberi bentuk yang ikut membawa maknanya.</p>
+    <p>Kalau bentuknya mengganggu, tekan <em>Baca polos</em> di bawah puisi. Kata-katanya tetap sama, hanya tubuhnya yang dilepas.</p>
+    <p>Arsip tulisan lama ada di <a href="https://keinginantulis27.blogspot.com/">keinginantulis27.blogspot.com</a>.</p>
+  </section>
+</main>
+
+<footer class="bawah ui">Dilatasi Puisi · puisi oleh Angga Nur Salim</footer>
+
+<script>
+{
+  /* ================= ILUSTRASI: hanya batang tanduk =================
+     Semua digambar di kotak yang sama (200×220), pangkal di bawah tengah,
+     supaya pertumbuhan terlihat dari tinggi dan tebalnya. */
+  const garis = (d, w) => `<path d="${d}" stroke-width="${w}"/>`;
+  const tanduk = (isi) => `<svg viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+    <ellipse cx="100" cy="207" rx="13" ry="4.5" fill="currentColor"/>
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${isi}</g></svg>`;
+
+  /* Bentuk tanduk asli dari samping: batang melengkung ke belakang lalu menekuk ke depan (seperti huruf C),
+     cabang-cabangnya menunjuk ke atas-depan, ke arah dalam lengkungan. */
+  /* 1 → 2 : tunas kecil, sudah mulai melengkung */
+  const SELA_TUNAS = tanduk(garis("M100 204 Q88 190 92 168", 9));
+  /* 2 → 3 : tumbuh, tapi tipis */
+  const SELA_TIPIS = tanduk(
+    garis("M100 204 C78 172 72 130 84 100 C92 82 104 74 114 70", 6) +
+    garis("M79 150 Q92 136 106 132", 4));
+  /* 3 → 4 : patah */
+  const SELA_PATAH = tanduk(
+    garis("M100 204 C78 172 70 138 76 114", 8) +
+    `<path d="M71 116 L75 109 L80 115" stroke-width="3"/>` +
+    garis("M77 160 Q92 146 106 142", 5) +
+    `<g transform="translate(18 -14) rotate(22 80 104)">` +
+      garis("M80 104 C86 82 102 70 118 64", 7) + garis("M88 86 Q100 72 112 52", 4) + `</g>`);
+  /* sesudah 4 : kokoh */
+  const SELA_KOKOH = tanduk(
+    garis("M100 204 C70 170 62 132 68 112", 12) +
+    garis("M68 112 C74 70 104 40 130 30", 8) +
+    garis("M90 192 Q108 180 118 158", 6) +
+    garis("M65 136 Q80 114 92 94", 6) +
+    garis("M72 88 Q86 68 94 46", 5) +
+    garis("M92 52 Q104 36 108 14", 4));
+
+  /* ================= DATA: satu objek per puisi =================
+     bait : array of array of string (bait → baris)
+     sela : { indeksBait: {label, svg} } — ilustrasi yang muncul SETELAH bait tersebut
+     css  : gaya khusus; setiap aturan & nama @keyframes wajib berawalan slug */
+  const PUISI = [
+    {
+      slug: "angga", judul: "Angga", tanggal: "Puisi pertama", siap: true,
+      bait: [
+        ["Perkenalkan aku Angga yang lahir ditahun dua ribu dua",
+         "Lahir kedunia seperti angga kecil di atas kepala rusa",
+         "Musim berganti, angga kecil yang kupunya kini sudah tumbuh dewasa",
+         "Meski begitu tubuhnya masih kecil, jauh dari kata kuat dan perkasa"],
+        ["Angga memiliki arti tanduk rusa yang kokoh, menggambarkan keberanian dan harga diri",
+         "Namun sayang nama ini belum mewujud di dalam diri",
+         "Beradu tanduk di hutan dengan rusa jantan lain, demi mendapatkan penghormatan",
+         "Tapi sialnya angga yang kupunya masih lemah untuk mendapat sebuah kehormatan"],
+        ["Dari retak berganti patah angga yang kupunya terus ku asah",
+         "Di dorong oleh rasa harga diri yang tinggi, angga yang patah terus kuperbaiki"],
+        ["Seperti musim yang tak pernah diam, angga yang kupunya kini tak lagi lemah",
+         "Begitupun ketajaman berfikir dan menulisku yang sudah seperti rusa jantan yang gagah",
+         "Imajinasiku kokoh telah memakan rusa jantan lain",
+         "Kreatifitasku mematahkan segala angga penghalang",
+         "Kekurangan, takkan buatku jatuh dan kelelahan",
+         "Inilah aku sekarang Angga, pria yang telah kenyang pengalaman."]
+      ],
+      sela: {
+        0: { label: "Tunas tanduk rusa yang masih kecil", svg: SELA_TUNAS },
+        1: { label: "Batang tanduk yang tumbuh tinggi tapi masih tipis", svg: SELA_TIPIS },
+        2: { label: "Batang tanduk yang patah, ujungnya terlepas", svg: SELA_PATAH },
+        3: { label: "Batang tanduk yang tebal dan bercabang kokoh", svg: SELA_KOKOH }
+      },
+      css: `
+[data-puisi="angga"] .baris{font-weight:calc(300 + var(--g) * 18);margin-bottom:.15em}
+[data-puisi="angga"] [data-g="8"] .kata:nth-of-type(4){display:inline-block;letter-spacing:.32em;transform:rotate(-3deg) translateY(.08em)}
+[data-puisi="angga"] [data-g="15"]{margin-top:1.4em;font-size:1.12em;word-spacing:.12em;line-height:1.45}
+[data-puisi="angga"] .sela{margin:3em auto;max-width:140px}
+@supports (animation-timeline: view()){[data-puisi="angga"] .sela svg{animation:angga-muncul linear both;animation-timeline:view();animation-range:entry 0% cover 35%}}
+@keyframes angga-muncul{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){[data-puisi="angga"] .sela svg{animation:none}}`
+    },
+    {
+      slug: "ia-merasa-sendiri", judul: "Ia Merasa Sendiri", tanggal: "Benteng tanpa pintu", siap: true,
+      bait: [
+        ["Kota berbenteng, tanpa pintu adalah penjara kehidupan",
+         "Bergerak tapi tak bebas, seperti tenggelam di tengah lautan",
+         "Diantara darat dan laut ada batas yang tak bisa diungkapkan",
+         "Di tengah kebingungan, pastilah ada jawaban"],
+        ["Tak ada yang tersisa di dalam gelap, kecuali gerak",
+         "Lelah menerpa, kala bergerak mencari ketenangan",
+         "Terjatuh di atas lem perekat, ia terus merangkak",
+         "Lelahnya ia telah sampai, tapi mimpinya jadi kenangan"],
+        ["Tak ada tali tuk naik, tak ada apapun tuk dimintai tolong",
+         'Jeritan di tengah gelap, seolah berkata "tak ada yang bisa menolongmu"',
+         "Tangis lalu tiba sebagai penolong",
+         '"Kamu tak perlu sendu"']
+      ],
+      /* Benteng = bingkai tertutup. Bait 1 terang, bait 2–3 tenggelam dalam gelap.
+         Tetes tangis jatuh, lalu dinding bawah terbuka: pintu yang tadinya tak ada. */
+      css: `
+[data-puisi="ia-merasa-sendiri"]{--ims-gelap:light-dark(#141414,#050505);--ims-terang:light-dark(#f1efea,#e9e7e3);--ims-cahaya:light-dark(#ffffff,#4a4843);--ims-darat:light-dark(#ffffff,#1f1f1e);border:1.5px solid var(--ink);padding:0;min-height:0;timeline-scope:--ims-tangis}
+[data-puisi="ia-merasa-sendiri"] .bait{margin:0;padding:1.6em clamp(16px,4vw,36px)}
+[data-puisi="ia-merasa-sendiri"] [data-b="0"]{background:var(--ims-darat)}
+[data-puisi="ia-merasa-sendiri"] [data-b="1"]{padding-top:6em;background:linear-gradient(to bottom,var(--ims-darat),var(--ims-gelap) 6em);color:var(--ims-terang)}
+[data-puisi="ia-merasa-sendiri"] [data-b="2"]{background:var(--ims-gelap);color:var(--ims-terang);padding-bottom:6em;position:relative}
+[data-puisi="ia-merasa-sendiri"] [data-b="1"] .baris{opacity:calc(1 - var(--l) * .07)}
+[data-puisi="ia-merasa-sendiri"] [data-g="6"] .kata:nth-of-type(8){display:inline-block;letter-spacing:.065em;transform:skewX(-4deg);transform-origin:left bottom}
+[data-puisi="ia-merasa-sendiri"] [data-g="9"] .kata:nth-of-type(n+7){font-weight:600;letter-spacing:-.01em}
+[data-puisi="ia-merasa-sendiri"] [data-g="11"]{font-style:italic;font-weight:300;margin-top:1.4em;position:relative;view-timeline-name:--ims-tangis}
+[data-puisi="ia-merasa-sendiri"] [data-g="11"]::before{content:"";position:absolute;left:50%;top:-1.4em;width:.55em;height:.55em;background:var(--ims-terang);border-radius:0 50% 50% 50%;transform:translate(-50%,0) rotate(45deg);opacity:0}
+[data-puisi="ia-merasa-sendiri"]::after{content:"";position:absolute;left:50%;bottom:-1.5px;width:4.5em;height:4.2em;transform:translateX(-50%);background:linear-gradient(to top,var(--ims-cahaya),transparent)}
+@keyframes ia-merasa-sendiri-tetes{0%{opacity:0;transform:translate(-50%,0) rotate(45deg)}15%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate(-50%,6.5em) rotate(45deg)}}
+@keyframes ia-merasa-sendiri-pintu{from{width:0;height:0}to{width:4.5em;height:4.2em}}
+@supports (timeline-scope: --a) and (animation-timeline: view()){[data-puisi="ia-merasa-sendiri"] [data-g="11"]::before{animation:ia-merasa-sendiri-tetes linear both;animation-timeline:--ims-tangis;animation-range:entry 0% cover 8%}[data-puisi="ia-merasa-sendiri"]::after{animation:ia-merasa-sendiri-pintu ease-out both;animation-timeline:--ims-tangis;animation-range:cover 6% cover 20%}}
+@media (prefers-reduced-motion: reduce){[data-puisi="ia-merasa-sendiri"] [data-g="11"]::before,[data-puisi="ia-merasa-sendiri"]::after{animation:none}}`
+    },
+    {
+      slug: "ibu-petarung", judul: "Ibu Petarung", tanggal: "Peta perjalanan", siap: true,
+      bait: [
+        ["Hidungnya mengendus cepat menghirup bahaya mendatang",
+         "Setiap suara masuk kedalam telinga dengan teliti",
+         "Darahnya berlarian, bersiap akan berperang",
+         "Baginya arti pilihan maju dan mundur, adalah mati"],
+        ["Anak dipangkuan menjerit menahan, namun lapar sudah tak tertahan",
+         "Rasa takut kehilangan anak tersayang, membuat langkahnya bimbang",
+         "Keluar sarang mati, diterkam serigala jahanam",
+         "Tak keluar sarang mati hati, melihat anak mati kelaparan"],
+        ["Keibuan menang, sang ibu memilih keluar sarang",
+         "Serigala di darat, elang di langit, sedikit tempat tuk bisa selamat",
+         "Ibu merasa makanan belum cukup, Ibu khawatir putranya belum kenyang",
+         "Langit sepi, namun juru selamat tak ada di darat"],
+        ["Sebuah berita gembira, khawatirnya sudah hilang",
+         "Berganti rasa terancam kehilangan nyawa tersayang",
+         "Halang rintang berhasil dilewati, ibu berhasil menang",
+         "Sekarang berita gembira, keluarga kelinci itu lengkap berada di sarang."]
+      ],
+      /* Jarak dari tepi kiri = jarak sang ibu dari sarang.
+         Sarang = dinding kiri + lantai melengkung (liang dilihat dari samping), terbuka ke kanan.
+         Baris 7–8 bercabang; cabang "tak keluar" memudar saat "Keibuan menang" terbaca. */
+      css: `
+[data-puisi="ibu-petarung"]{--ip-u:clamp(8px,4vw,34px);--ip-sarang:light-dark(#a8926f,#7a6a52);timeline-scope:--ip-menang}
+[data-puisi="ibu-petarung"] [data-b="0"],[data-puisi="ibu-petarung"] [data-b="1"]{width:fit-content;max-width:100%;border-left:1.5px solid var(--ip-sarang);padding-left:.9em;margin-bottom:0}
+[data-puisi="ibu-petarung"] [data-b="0"]{padding-top:.4em;padding-bottom:1.2em}
+[data-puisi="ibu-petarung"] [data-b="1"]{border-bottom:1.5px solid var(--ip-sarang);border-bottom-left-radius:1.8em;padding-bottom:1.2em;padding-right:1em;margin-bottom:2.6em}
+[data-puisi="ibu-petarung"] [data-g="6"],[data-puisi="ibu-petarung"] [data-g="7"]{position:relative;margin-left:1.9em}
+[data-puisi="ibu-petarung"] [data-g="6"]::before,[data-puisi="ibu-petarung"] [data-g="7"]::before{content:"";position:absolute;left:-1.5em;width:1.05em;border-left:1.5px solid var(--muted)}
+[data-puisi="ibu-petarung"] [data-g="6"]::before{top:.8em;bottom:0;border-top:1.5px solid var(--muted);border-top-left-radius:.6em}
+[data-puisi="ibu-petarung"] [data-g="7"]::before{top:0;height:.8em;border-bottom:1.5px solid var(--muted);border-bottom-left-radius:.6em}
+[data-puisi="ibu-petarung"] [data-g="8"]{margin-left:calc(var(--ip-u) * 3);view-timeline-name:--ip-menang}
+[data-puisi="ibu-petarung"] [data-g="9"]{margin-left:calc(var(--ip-u) * 4);line-height:1.95}
+[data-puisi="ibu-petarung"] [data-g="10"]{margin-left:calc(var(--ip-u) * 4.5)}
+[data-puisi="ibu-petarung"] [data-g="11"]{margin-left:calc(var(--ip-u) * 4);line-height:1.95}
+[data-puisi="ibu-petarung"] [data-g="12"]{margin-left:calc(var(--ip-u) * 3)}
+[data-puisi="ibu-petarung"] [data-g="13"]{margin-left:calc(var(--ip-u) * 4.5)}
+[data-puisi="ibu-petarung"] [data-g="14"]{margin-left:calc(var(--ip-u) * 2)}
+[data-puisi="ibu-petarung"] [data-g="15"]{width:fit-content;max-width:100%;margin-top:1.4em;border-left:1.5px solid var(--ip-sarang);border-bottom:1.5px solid var(--ip-sarang);border-bottom-left-radius:1.8em;padding:.3em 1em .7em 2.1em}
+[data-puisi="ibu-petarung"] [data-g="9"] .kata:nth-of-type(-n+3),[data-puisi="ibu-petarung"] [data-g="11"] .kata:nth-last-of-type(-n+2){display:inline-block;transform:translateY(.2em)}
+[data-puisi="ibu-petarung"] [data-g="9"] .kata:nth-of-type(n+4):nth-of-type(-n+6),[data-puisi="ibu-petarung"] [data-g="11"] .kata:nth-of-type(-n+2){display:inline-block;transform:translateY(-.25em)}
+@keyframes ibu-petarung-tinggal{to{opacity:.28}}
+@supports (timeline-scope: --a) and (animation-timeline: view()){[data-puisi="ibu-petarung"] [data-g="7"]{animation:ibu-petarung-tinggal linear both;animation-timeline:--ip-menang;animation-range:cover 20% cover 45%}}`
+    },
+    { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
+    { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
+    { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
+  ];
+
+  const $ = (s) => document.querySelector(s);
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const siapSemua = PUISI.filter((p) => p.siap);
+
+  /* ---------- Invariant: data puisi harus sehat sebelum dirender ---------- */
+  {
+    const lihat = new Set();
+    for (const p of PUISI) {
+      if (lihat.has(p.slug)) console.warn("Slug ganda:", p.slug);
+      lihat.add(p.slug);
+      if (p.siap && (!Array.isArray(p.bait) || !p.bait.length)) console.warn(`"${p.slug}" ditandai siap tapi tanpa bait`);
+      if (p.sela) for (const k of Object.keys(p.sela)) {
+        if (!(Number(k) >= 0 && Number(k) < (p.bait || []).length)) console.warn(`Sela "${p.slug}" menunjuk bait tak ada:`, k);
+      }
+      if (p.css) {
+        const bocor = p.css.split("}").map((r) => r.trim())
+          .filter((r) => r && r.includes("{") && !r.startsWith("@") && !/^(from|to|\d+%)/.test(r) && !r.startsWith(`[data-puisi="${p.slug}"]`));
+        if (bocor.length) console.warn(`CSS "${p.slug}" punya aturan di luar ruangnya:`, bocor);
+        for (const m of p.css.matchAll(/@keyframes\s+([\w-]+)/g)) {
+          if (!m[1].startsWith(p.slug + "-")) console.warn(`@keyframes "${m[1]}" harus berawalan "${p.slug}-"`);
+        }
+      }
+    }
+  }
+
+  let polos = false;
+  try { polos = localStorage.getItem("dilatasi-polos") === "1"; } catch (e) {}
+
+  /* string → bait → baris → kata, tiap unit diberi alamat (--b, --l, --g, --k + data-b, data-g) */
+  function bangunRuang(p) {
+    let g = 0;
+    return p.bait.map((bait, b) => {
+      const isi = `<div class="bait" data-b="${b}" style="--b:${b}">` +
+        bait.map((baris, l) => {
+          const kata = baris.split(/\s+/).filter(Boolean)
+            .map((k, i) => `<span class="kata" style="--k:${i}">${esc(k)}</span>`).join(" ");
+          const html = `<span class="baris" data-g="${g}" style="--l:${l};--g:${g}">${kata}</span>`;
+          g++;
+          return html;
+        }).join("") + `</div>`;
+      const s = p.sela && p.sela[b];
+      const sela = s && s.svg ? `<figure class="sela" role="img" aria-label="${esc(s.label || "Ilustrasi")}">${s.svg}</figure>` : "";
+      return isi + sela;
+    }).join("");
+  }
+
+  function daftar() {
+    $("#daftar").innerHTML = PUISI.map((p) => p.siap
+      ? `<li><a href="#p-${p.slug}"><span class="jdl">${esc(p.judul)}</span><span class="ket ui">${esc(p.tanggal)}</span></a></li>`
+      : `<li><span class="mati"><span class="jdl">${esc(p.judul)}</span><span class="ket ui">belum dipindah</span></span></li>`
+    ).join("");
+  }
+
+  function pasangGaya(p) {
+    $("#gaya-puisi").textContent = p && p.css && !polos ? p.css : "";
+    $("#ruang").classList.toggle("polos", polos);
+    $("#polos").setAttribute("aria-pressed", String(polos));
+  }
+
+  let aktif = null;
+  function bukaPuisi(slug) {
+    const p = PUISI.find((x) => x.slug === slug && x.siap);
+    if (!p) return false; // guard: slug tak dikenal atau belum siap
+    aktif = p;
+    $("#tanda-contoh").innerHTML = p.contoh ? `<span class="tanda ui">Puisi contoh untuk menguji ruang</span>` : "";
+    $("#p-judul").textContent = p.judul;
+    $("#p-tgl").textContent = p.tanggal;
+    const ruang = $("#ruang");
+    ruang.setAttribute("data-puisi", p.slug);
+    ruang.innerHTML = bangunRuang(p);
+    pasangGaya(p);
+    const i = siapSemua.indexOf(p);
+    const sblm = siapSemua[i - 1], ssdh = siapSemua[i + 1];
+    $("#jalan").innerHTML =
+      (sblm ? `<a href="#p-${sblm.slug}">← ${esc(sblm.judul)}</a>` : "") +
+      (ssdh ? `<a href="#p-${ssdh.slug}">${esc(ssdh.judul)} →</a>` : "") +
+      (!sblm && !ssdh ? `<a href="#beranda">Kembali ke daftar</a>` : "");
+    return true;
+  }
+
+  function tampil(id) {
+    for (const s of document.querySelectorAll(".layar")) s.hidden = s.id !== "l-" + id;
+    for (const a of document.querySelectorAll(".nav a")) {
+      if (a.dataset.r === (id === "puisi" ? "beranda" : id)) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    }
+  }
+
+  function rute() {
+    const h = location.hash.slice(1);
+    if (h.startsWith("p-") && bukaPuisi(h.slice(2))) { tampil("puisi"); window.scrollTo(0, 0); return; }
+    aktif = null;
+    pasangGaya(null); // keluar dari ruang puisi → lepas CSS-nya
+    tampil(h === "tentang" ? "tentang" : "beranda");
+  }
+
+  $("#polos").addEventListener("click", () => {
+    polos = !polos;
+    try { localStorage.setItem("dilatasi-polos", polos ? "1" : "0"); } catch (e) {}
+    pasangGaya(aktif);
+  });
+
+  daftar();
+  rute();
+  window.addEventListener("hashchange", rute);
+}
+</script>
+</body>
+</html>
