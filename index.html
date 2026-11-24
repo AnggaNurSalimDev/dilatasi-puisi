@@ -260,6 +260,50 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 @keyframes ibu-petarung-tinggal{to{opacity:.28}}
 @supports (timeline-scope: --a) and (animation-timeline: view()){[data-puisi="ibu-petarung"] [data-g="7"]{animation:ibu-petarung-tinggal linear both;animation-timeline:--ip-menang;animation-range:cover 20% cover 45%}}`
     },
+    {
+      slug: "salah-arti", judul: "Salah Arti", tanggal: "Arah yang salah dibaca", siap: true,
+      bait: [
+        ["Berpikir terus, diri yang paling lurus",
+         "Seperti semuanya bergerak, sesuai arus",
+         "Bergerak sembarang, tak pernah serius",
+         "Sampai datang arus, membuatku tergerus"],
+        ["Terlambat tuk berlari, aku tergerus",
+         "Jatuh ke lubang yang sama, akupun terjerumus",
+         "Kucoba daki-daki, tetapi kakiku tak kuat lagi",
+         "Sekuat tenaga kucoba naik, tuk kembali gapai mimpi"],
+        ["Mimpiku tinggi, setinggi taburan bintang di malam purnama",
+         "Mimpiku dalam, sedalam palung indah yang pernah dijelajahi manusia",
+         "Salah arti, aku salah arti tuk hidupku sendiri",
+         "Hidup dalam mimpi, kini ini yang bisa kunikmati."]
+      ],
+      /* Arus = waktu. Bait 1 hanyut menyamping (baris "paling lurus" miring di atas garis yang benar-benar lurus),
+         bait 2 jatuh ke lubang ("terlambat" datang terlambat; mendaki lalu merosot),
+         bait 3 terbelah ke tinggi dan dalam, lalu dua baris terakhir datar dan polos. */
+      css: `
+[data-puisi="salah-arti"]{--sa-u:clamp(8px,3vw,26px)}
+[data-puisi="salah-arti"] [data-b="0"]{position:relative}
+[data-puisi="salah-arti"] [data-b="0"]::before{content:"";position:absolute;left:0;top:1.72em;width:min(100%,21em);border-top:1px solid var(--muted)}
+[data-puisi="salah-arti"] [data-g="0"]{transform:rotate(-1.2deg);transform-origin:left center;margin-bottom:.45em}
+[data-puisi="salah-arti"] [data-g="1"]{margin-left:calc(var(--sa-u) * 1)}
+[data-puisi="salah-arti"] [data-g="2"]{margin-left:calc(var(--sa-u) * 2)}
+[data-puisi="salah-arti"] [data-g="3"]{margin-left:calc(var(--sa-u) * 3)}
+[data-puisi="salah-arti"] [data-g="3"] .kata:nth-of-type(5){display:inline-block;-webkit-mask-image:linear-gradient(to right,#000 40%,rgba(0,0,0,.4));mask-image:linear-gradient(to right,#000 40%,rgba(0,0,0,.4))}
+[data-puisi="salah-arti"] [data-b="1"]{margin-top:3.4em}
+[data-puisi="salah-arti"] [data-g="4"]{margin-left:calc(var(--sa-u) * 3)}
+[data-puisi="salah-arti"] [data-g="5"],[data-puisi="salah-arti"] [data-g="6"],[data-puisi="salah-arti"] [data-g="7"]{margin-left:calc(var(--sa-u) * 1)}
+[data-puisi="salah-arti"] [data-g="6"],[data-puisi="salah-arti"] [data-g="7"]{line-height:1.95}
+[data-puisi="salah-arti"] [data-g="6"] .kata{display:inline-block}
+[data-puisi="salah-arti"] [data-g="6"] .kata:nth-of-type(-n+4){transform:translateY(calc(var(--k) * -.12em))}
+[data-puisi="salah-arti"] [data-g="6"] .kata:nth-of-type(n+5){transform:translateY(calc((var(--k) - 4) * .14em + .05em))}
+[data-puisi="salah-arti"] [data-g="7"] .kata{display:inline-block;transform:translateY(calc(var(--k) * -.05em))}
+[data-puisi="salah-arti"] [data-b="2"]{margin-top:2.6em}
+[data-puisi="salah-arti"] [data-g="8"]{font-weight:300;letter-spacing:.05em;transform:translateY(-.4em);margin-bottom:.3em}
+[data-puisi="salah-arti"] [data-g="9"]{font-weight:520;transform:translateY(.3em);margin-bottom:.9em}
+[data-puisi="salah-arti"] [data-g="10"]{margin-top:1.1em}
+@keyframes salah-arti-telat{from{opacity:0;transform:translateX(-.6em)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){[data-puisi="salah-arti"] [data-g="4"]{animation:salah-arti-telat ease-out both;animation-timeline:view();animation-range:entry 100% cover 30%}}
+@media (prefers-reduced-motion: reduce){[data-puisi="salah-arti"] [data-g="4"]{animation:none}}`
+    },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
     { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
