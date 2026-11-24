@@ -304,6 +304,40 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 @supports (animation-timeline: view()){[data-puisi="salah-arti"] [data-g="4"]{animation:salah-arti-telat ease-out both;animation-timeline:view();animation-range:entry 100% cover 30%}}
 @media (prefers-reduced-motion: reduce){[data-puisi="salah-arti"] [data-g="4"]{animation:none}}`
     },
+    {
+      slug: "cinta-sekecil-mikroba", judul: "Cinta Sekecil Mikroba", tanggal: "Warna dan abu-abu", siap: true,
+      bait: [
+        ["Ilmu pengetahuan, telah membuka dunia yang tak kasat mata",
+         "Bukan hantu, bukan pula status hubunganmu",
+         "Para pecinta ilmu telah menemukan dunia para mikroba",
+         "Dunia yang penuh warna, tak seperti hubunganmu"],
+        ["Dunia kecil itu terhubung, dengan dunia kita",
+         "Siapa kira di dalam bumi yang kita injak, ada bakteri",
+         "Siapa kira dalam vulkanik yang panas, ada arkea",
+         "Mereka ada di mana-mana, tak seperti dia yang kau sayangi"],
+        ["Dalam tubuh dirinya, terdapat miliaran mikroba baik",
+         "Tapi dalam livernya, tak tergores sedikitpun namamu",
+         "Bukannya kau tak ada, tapi kau kurang menarik",
+         "Karena dihatinya, namamu telah tersapu"],
+        ["Kutulis ini bukan untuk menyinggung hati atau apapun",
+         "Tapi hati, sedang ingin menulis apapun dalam bayangan",
+         "Mungkin kutulis mikroba, karena banyak artikel sebelumnya",
+         "Haahh sepertinya meracauku sudah cukup sampai disini saja"]
+      ],
+      /* Sains = tinta tegas; sindiran untuk "kau" = abu-abu (status hubungan abu-abu).
+         Porsi sindiran naik dari bait 1 ke 3, jadi puisi makin abu-abu.
+         Satu-satunya warna: "penuh warna". Bait 4 = suara penulis (huruf polos), memudar di akhir. */
+      css: `
+[data-puisi="cinta-sekecil-mikroba"]{--csm-abu:light-dark(#767676,#9a9a9a)}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="1"],[data-puisi="cinta-sekecil-mikroba"] [data-g="9"],[data-puisi="cinta-sekecil-mikroba"] [data-g="10"],[data-puisi="cinta-sekecil-mikroba"] [data-g="11"]{color:var(--csm-abu)}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="3"] .kata:nth-of-type(n+5),[data-puisi="cinta-sekecil-mikroba"] [data-g="7"] .kata:nth-of-type(n+5){color:var(--csm-abu)}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="3"] .kata:nth-of-type(3){background:linear-gradient(90deg,#e0457b,#ee9a1c);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="3"] .kata:nth-of-type(4){background:linear-gradient(90deg,#1fa66a,#2d7ff0,#8e5cf0);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="2"] .kata:nth-of-type(8),[data-puisi="cinta-sekecil-mikroba"] [data-g="8"] .kata:nth-of-type(6){font-size:.75em;letter-spacing:.02em}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="11"] .kata:nth-of-type(3){display:inline-block;transform:skewX(-8deg);letter-spacing:.04em;-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,.95),rgba(0,0,0,.3));mask-image:linear-gradient(to right,rgba(0,0,0,.95),rgba(0,0,0,.3))}
+[data-puisi="cinta-sekecil-mikroba"] [data-b="3"]{font-family:"Inter",system-ui,sans-serif;font-size:.88em;margin-top:2.4em;padding-top:1.6em;border-top:1px dashed var(--rule)}
+[data-puisi="cinta-sekecil-mikroba"] [data-g="15"] .kata{opacity:calc(1 - var(--k) * .08)}`
+    },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
     { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
