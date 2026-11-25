@@ -153,8 +153,9 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
     const r = deg * Math.PI / 180;
     return [x * Math.cos(r) - y * Math.sin(r), x * Math.sin(r) + y * Math.cos(r)];
   };
-  const coretan = (n, y1, y2) => {
-    const kiri = -4.5, lebar = 10, jarak = lebar / (n - 1), tebal = n > 4 ? 1.7 : 2.3;
+  /* coretan diletakkan tepat di bawah sendi: tengah & lebar mengikuti ujung bawah bentuk kaki */
+  const coretan = (n, y1, y2, tengah, lebar) => {
+    const kiri = tengah - lebar / 2, jarak = lebar / (n - 1), tebal = n > 4 ? 1.1 : 2.3;
     return `<g stroke-width="${tebal}" stroke-linecap="round">` + Array.from({ length: n }, (_, i) =>
       `<line x1="${kiri + i * jarak}" y1="${y1}" x2="${kiri + i * jarak}" y2="${y2}"/>`).join("") + `</g>`;
   };
@@ -166,7 +167,7 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
     const mulai = depan ? 64 : 54;
     return `<g transform="translate(${x} ${y}) rotate(${deg}) scale(${SKALA})" opacity="${redup ? .72 : 1}">
       <path d="${depan ? KAKI_D : PAHA_D}" fill="url(#ba-${depan ? "lengan" : "paha"})"/>
-      <g stroke="url(#ba-coret-${depan ? "depan" : "belakang"})">${coretan(n, mulai, panjang)}</g></g>`;
+      <g stroke="url(#ba-coret-${depan ? "depan" : "belakang"})">${depan ? coretan(n, mulai, panjang, 0.5, 10) : coretan(n, mulai, panjang, -5, 7.5)}</g></g>`;
   };
   const kakiAngkat = (x, y, deg) => {
     const [kx, ky] = putar(0.5 * SKALA, 70 * SKALA, deg);
