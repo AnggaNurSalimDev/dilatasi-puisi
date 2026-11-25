@@ -142,30 +142,47 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
   /* Berandai-andai: empat kaki kuda waktu. Lutut tetap lutut kuda, tapi tulang kering
      diganti coretan hitungan tahun: 6 | 3 | 3 (SD, SMP, SMK) sudah menapak tanah.
      Kaki depan (keempat) terangkat: garis lalu titik-titik, akan menapak. */
-  const lengan = (cx, s) =>                          // lengan atas berotot, meruncing ke lutut
-    `<path d="M${cx - 13} 6 C${cx - 16} 30 ${cx - s - 3} 44 ${cx - s} 56 L${cx + s} 56 C${cx + s + 4} 40 ${cx + 16} 26 ${cx + 12} 6 Z" fill="url(#ba-pudar)"/>
-     <rect x="${cx - s - 2}" y="54" width="${2 * s + 4}" height="15" rx="5" fill="currentColor"/>`;
-  const kakiCoret = (cx, n) => {
-    if (!(n > 0)) return "";                       // guard: minimal satu coretan
-    const jarak = 4.2, lebar = (n - 1) * jarak, kiri = cx - lebar / 2;
-    const s = lebar / 2 + 4;                       // lebar lutut mengikuti ikatan coretan
+  /* Kaki depan kuda dari samping (depan = kanan): lengan berotot, lutut dengan tonjolan
+     tulang di belakang, lalu menyempit. Di bawah lutut, kaki diganti coretan hitungan.
+     Sambungannya disilang-pudarkan (gradasi): kaki memudar ke bawah, coretan muncul dari pudar. */
+  const KAKI_D = "M-14 0 L14 0 C16 20 12 40 11 52 C13 58 13 66 10 72 L6 82 L-5 82 L-7 64 C-10 62 -15 58 -14 55 C-12 52 -10 50 -9 48 C-12 36 -16 18 -14 0 Z";
+  const PANJANG = 150;                               // dari pangkal ke tanah (koordinat lokal)
+  const putar = (x, y, deg) => {                     // titik lokal → titik dunia setelah rotasi
+    const r = deg * Math.PI / 180;
+    return [x * Math.cos(r) - y * Math.sin(r), x * Math.sin(r) + y * Math.cos(r)];
+  };
+  const kakiCoret = (cx, top, deg, n) => {
+    if (!(n > 1)) return "";                         // guard: butuh minimal dua coretan
+    const kiri = -4.5, lebar = 10, jarak = lebar / (n - 1), tebal = n > 4 ? 1.6 : 2.2;
     const coret = Array.from({ length: n }, (_, i) =>
-      `<line x1="${kiri + i * jarak}" y1="68" x2="${kiri + i * jarak}" y2="139"/>`).join("");
-    return lengan(cx, s) + `<g stroke="currentColor" stroke-width="2.4" stroke-linecap="round">${coret}</g>`;
+      `<line x1="${kiri + i * jarak}" y1="64" x2="${kiri + i * jarak}" y2="${PANJANG}"/>`).join("");
+    return `<g transform="translate(${cx} ${top}) rotate(${deg})">
+      <path d="${KAKI_D}" fill="url(#ba-kaki)"/>
+      <g stroke="url(#ba-coret)" stroke-width="${tebal}" stroke-linecap="round">${coret}</g></g>`;
   };
-  const kakiAngkat = (cx) => {
-    const titik = [[285, 108], [288, 116], [291, 124], [294, 132]]
-      .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.7" fill="currentColor"/>`).join("");
-    return lengan(cx, 6) +
-      `<line x1="${cx + 2}" y1="68" x2="283" y2="100" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-      ${titik}<ellipse cx="296" cy="139" rx="9" ry="2.2" fill="currentColor" opacity=".18"/>`;
+  const kakiAngkat = (cx, top, deg) => {
+    const [kx, ky] = putar(0.5, 70, deg);            // lutut di dunia
+    const ax = cx + kx, ay = top + ky;
+    const ujung = [ax - 12, ay + 34];                // tulang kering menekuk ke belakang
+    const titik = [0, 1, 2, 3].map((i) =>
+      `<circle cx="${ujung[0] + 2 + i * 2}" cy="${ujung[1] + 9 + i * 9}" r="1.6" fill="currentColor"/>`).join("");
+    const tanah = top + PANJANG;
+    return `<g transform="translate(${cx} ${top}) rotate(${deg})"><path d="${KAKI_D}" fill="url(#ba-kaki)"/></g>
+      <line x1="${ax}" y1="${ay - 4}" x2="${ujung[0]}" y2="${ujung[1]}" stroke="url(#ba-coret-angkat)" stroke-width="2.2" stroke-linecap="round"/>
+      ${titik}<ellipse cx="${ujung[0] + 8}" cy="${tanah}" rx="8" ry="2" fill="currentColor" opacity=".18"/>`;
   };
-  /* lengan atas memudar ke atas: kaki "turun" dari tubuh kuda yang tak terlihat */
-  const PUDAR = `<defs><linearGradient id="ba-pudar" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="currentColor" stop-opacity="0"/><stop offset=".7" stop-color="currentColor"/></linearGradient></defs>`;
-  const SELA_JEJAK = `<svg viewBox="0 0 330 146" aria-hidden="true" focusable="false">
-    <line x1="10" y1="140" x2="320" y2="140" stroke="currentColor" stroke-width="1" opacity=".45"/>
-    ${PUDAR}${kakiCoret(62, 6)}${kakiCoret(116, 3)}${kakiCoret(208, 3)}${kakiAngkat(258)}</svg>`;
+  const GRADASI = `<defs>
+    <linearGradient id="ba-kaki" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0"/><stop offset=".3" stop-color="currentColor"/>
+      <stop offset=".74" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient>
+    <linearGradient id="ba-coret" gradientUnits="userSpaceOnUse" x1="0" y1="64" x2="0" y2="90">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0"/><stop offset="1" stop-color="currentColor"/></linearGradient>
+    <linearGradient id="ba-coret-angkat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0"/><stop offset=".55" stop-color="currentColor"/></linearGradient></defs>`;
+  const TOP = 6, TANAH = TOP + PANJANG;
+  const SELA_JEJAK = `<svg viewBox="0 0 340 ${TANAH + 6}" aria-hidden="true" focusable="false">${GRADASI}
+    <line x1="10" y1="${TANAH}" x2="330" y2="${TANAH}" stroke="currentColor" stroke-width="1" opacity=".4"/>
+    ${kakiCoret(66, TOP, 9, 6)}${kakiCoret(118, TOP, -4, 3)}${kakiCoret(214, TOP, 6, 3)}${kakiAngkat(268, TOP, -20)}</svg>`;
 
   /* ================= DATA: satu objek per puisi =================
      bait : array of array of string (bait → baris)
