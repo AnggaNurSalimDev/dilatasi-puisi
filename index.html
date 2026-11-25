@@ -146,7 +146,7 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
      tulang di belakang, lalu menyempit. Di bawah lutut, kaki diganti coretan hitungan.
      Sambungannya disilang-pudarkan (gradasi): kaki memudar ke bawah, coretan muncul dari pudar. */
   const KAKI_D = "M-14 0 L14 0 C16 20 12 40 11 52 C13 58 13 66 10 72 L6 82 L-5 82 L-7 64 C-10 62 -15 58 -14 55 C-12 52 -10 50 -9 48 C-12 36 -16 18 -14 0 Z";
-  const PANJANG = 150;                               // dari pangkal ke tanah (koordinat lokal)
+  const PANJANG = 120;                               // dari pangkal ke tanah (koordinat lokal)
   const putar = (x, y, deg) => {                     // titik lokal → titik dunia setelah rotasi
     const r = deg * Math.PI / 180;
     return [x * Math.cos(r) - y * Math.sin(r), x * Math.sin(r) + y * Math.cos(r)];
@@ -163,13 +163,13 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
   const kakiAngkat = (cx, top, deg) => {
     const [kx, ky] = putar(0.5, 70, deg);            // lutut di dunia
     const ax = cx + kx, ay = top + ky;
-    const ujung = [ax - 12, ay + 34];                // tulang kering menekuk ke belakang
-    const titik = [0, 1, 2, 3].map((i) =>
-      `<circle cx="${ujung[0] + 2 + i * 2}" cy="${ujung[1] + 9 + i * 9}" r="1.6" fill="currentColor"/>`).join("");
+    const ujung = [ax - 9, ay + 24];                // tulang kering menekuk ke belakang
+    const titik = [0, 1, 2].map((i) =>
+      `<circle cx="${ujung[0] + 2 + i * 2}" cy="${ujung[1] + 7 + i * 6.5}" r="1.6" fill="currentColor"/>`).join("");
     const tanah = top + PANJANG;
     return `<g transform="translate(${cx} ${top}) rotate(${deg})"><path d="${KAKI_D}" fill="url(#ba-kaki)"/></g>
       <line x1="${ax}" y1="${ay - 4}" x2="${ujung[0]}" y2="${ujung[1]}" stroke="url(#ba-coret-angkat)" stroke-width="2.2" stroke-linecap="round"/>
-      ${titik}<ellipse cx="${ujung[0] + 8}" cy="${tanah}" rx="8" ry="2" fill="currentColor" opacity=".18"/>`;
+      ${titik}<ellipse cx="${ujung[0] + 6}" cy="${tanah}" rx="8" ry="2" fill="currentColor" opacity=".18"/>`;
   };
   const GRADASI = `<defs>
     <linearGradient id="ba-kaki" x1="0" y1="0" x2="0" y2="1">
