@@ -369,6 +369,37 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 @keyframes sabar-saja-dulu-kedip{50%{opacity:0}}
 @media (prefers-reduced-motion: reduce){[data-puisi="sabar-saja-dulu"] [data-g="15"]::after{animation:none}}`
     },
+    {
+      slug: "rahmat-allah-mudah", judul: "Rahmat Allah Mudah", tanggal: "Debu seluas gurun", siap: true,
+      bait: [
+        ["Tahukah kamu kemuliaan ilmu itu?",
+         "Dia berada tepat, dibawah tangga derajat para malaikat",
+         "Apakah artinya manusia bisa terbang secepat waktu?",
+         "Lebih dari itu, manusia bisa jadi Azimat"],
+        ["Bukan benda sihir terkutuk itu, yang kumaksud",
+         "Tapi ia membawa berkah kebaikan, bagi sekitar",
+         "Membawanya tak berat, mendapat ilmupun tak sukar",
+         "Ilmu yang tak sengaja bertamupun, Allah tetap bayar"],
+        ["Lihatlah kebaikan Allah yang maha kaya itu",
+         "Dia tetap memberi, pada yang tak berniat menimba ilmu",
+         "Tapi perlu diingat, yang tak berniat dibayar sebesar debu",
+         "Debu yang kumaksud, adalah seluas gurun waktu"],
+        ["Apakah kamu manusia, yang masih menyia-nyiakan waktu?",
+         "Jangan bodoh, berangkatlah mencari ilmu",
+         "Kar'na rahmat Allah, tak sekecil debu",
+         "Teruslah cari ilmu, sampai tidurmu melebihi buku-buku"]
+      ],
+      /* Satu-satunya bentuk: debu yang memuai. Di bawah "seluas gurun waktu", satu titik debu
+         melebar jadi hamparan pasir selebar layar saat digulir. Teks lain tegak dan jernih;
+         tidak ada efek apa pun pada kata "Allah". */
+      css: `
+[data-puisi="rahmat-allah-mudah"]{--ram-pasir:light-dark(#b0956a,#a08a64)}
+[data-puisi="rahmat-allah-mudah"] [data-g="11"]{view-timeline-name:--ram-gurun}
+[data-puisi="rahmat-allah-mudah"] [data-g="11"]::after{content:"";display:block;height:3.4em;margin:.9em 0 .4em;color:var(--ram-pasir);background-image:radial-gradient(circle at 50% 50%,currentColor 0 2px,transparent 2.6px),radial-gradient(circle,currentColor 0 1px,transparent 1.6px),radial-gradient(circle,currentColor 0 .8px,transparent 1.4px);background-size:100% 100%,9px 7px,13px 11px;background-position:center,0 0,4px 3px;background-repeat:no-repeat,repeat,repeat;-webkit-mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent);opacity:.85}
+@keyframes rahmat-allah-mudah-memuai{from{clip-path:inset(44% calc(50% - 4px) 44% calc(50% - 4px) round 50%)}to{clip-path:inset(0 0 0 0 round 6px)}}
+@supports (animation-timeline: view()){[data-puisi="rahmat-allah-mudah"] [data-g="11"]::after{animation:rahmat-allah-mudah-memuai ease-out both;animation-timeline:--ram-gurun;animation-range:cover 30% cover 50%}}
+@media (prefers-reduced-motion: reduce){[data-puisi="rahmat-allah-mudah"] [data-g="11"]::after{animation:none}}`
+    },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
     { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
