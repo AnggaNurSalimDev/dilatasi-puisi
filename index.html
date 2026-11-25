@@ -206,6 +206,23 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
     ${kaki("belakang", 90, 100, 12, 6, true)}${kaki("depan", 222, 110, 5, 3, true)}
     ${TUBUH}
     ${kaki("belakang", 110, 104, -6, 3, false)}${kakiAngkat(240, 110, -24)}</svg>`;
+  /* Batu yang Lelah: satu batu retak yang mulai hancur jadi kerikil (ilustrasi penutup). */
+  const SELA_KERIKIL = (() => {
+    let biji = 7;                                    // acak berbiji: hasil selalu sama
+    const acak = () => (biji = biji * 16807 % 2147483647) / 2147483647;
+    const kerikil = [];
+    for (let i = 0; i < 18; i++) {                   // makin jauh dari batu, makin kecil dan jarang
+      const x = 156 + i * 6.4 + i * i * 0.08 + acak() * 2, r = Math.max(0.9, 3.4 - i * 0.14 + acak() * 0.7);
+      kerikil.push(`<ellipse cx="${x.toFixed(1)}" cy="${(84.5 - r * 0.7).toFixed(1)}" rx="${(r * 0.82).toFixed(1)}" ry="${(r * 0.66).toFixed(1)}" transform="rotate(${Math.round(acak() * 40 - 20)} ${x.toFixed(1)} 82)"/>`);
+    }
+    return `<svg viewBox="0 0 280 92" fill="currentColor" aria-hidden="true" focusable="false">
+      <line x1="16" y1="85" x2="270" y2="85" stroke="currentColor" stroke-width="1" opacity=".4"/>
+      <path d="M40 72 C38 52 52 36 76 32 C100 28 122 36 130 54 C135 66 130 80 116 84 L52 84 C44 82 41 78 40 72 Z"/>
+      <path d="M93 31 L86 46 L96 57 L88 70 L94 84" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M134 74 L146 70 L150 79 L140 84 L132 82 Z"/>
+      ${kerikil.join("")}</svg>`;
+  })();
+
 
   /* ================= DATA: satu objek per puisi =================
      bait : array of array of string (bait → baris)
@@ -496,6 +513,39 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 [data-puisi="berandai-andai"] [data-g="8"],[data-puisi="berandai-andai"] [data-g="9"],[data-puisi="berandai-andai"] [data-g="10"]{font-style:italic;opacity:.62}
 [data-puisi="berandai-andai"] [data-g="11"]{font-weight:500;margin-top:.3em}
 [data-puisi="berandai-andai"] [data-g="15"] .kata:nth-of-type(6){font-style:italic;opacity:.62}`
+    },
+    {
+      slug: "batu-yang-lelah", judul: "Batu yang Lelah", tanggal: "Batu yang menua", siap: true,
+      bait: [
+        ["Pernahkah kamu melihat batu yang lelah?", "Jika iya, mungkin kita sama",
+         "Apakah keberatan jika, kau ku panggil gila?", "Iya? Kenapa kamu tidak mengakui telah kalah?"],
+        ["Duduklah sebentar, mari kutunjukkan apa itu batu yang lelah", "Sebelum kujelaskan, mari kita satukan definisi",
+         "Menurutku lelah, butuh pulang ke rumah", "Dan jika telah sampai, apa yang kamu isi?"],
+        ["Membaca? Menulis? Atau tak melakukan apa-apa?", "Dari tiga, hanya ada satu hasil akhir, yaitu lelah",
+         "Semua yang dilakukan perlu tenaga", "Lalu jika iya, kenapa kita perlu pulang ke rumah?",
+         "Toh di luarpun tetap menghabiskan tenaga"],
+        ["Terkadang aku atau kamu itu aneh", "Melakukan hal yang samapun kita mengeluh lelah",
+         "Semua yang dilakukan butuh tenaga", "Artinya, hidup ini memang letih"],
+        ["Apa kamu pikir jadi batu tak lelah?", "Berdiam diri sepanjang masa dan berserah saja?",
+         "Tentu tidak! Menurutku, kar'na...", "Siapapun tak mau dibelah"],
+        ["Batu dibelah, dibuat rumah", "Batu dibelah, dijadikan bangunan",
+         "Apa mereka tak lelah?", "Jika tidak, tak'kan ada istilah rumah roboh"],
+        ["Artinya batupun lelah, merekapun punya masa tuanya", "Menjadi hancur, terpecah dan jadi kerikil",
+         "Alam semestapun lelah, karena tak kekal", "Kar'na bumi kitapun, mulai menjadi senja seutuhnya"],
+        ["Jelaslah semua, punya waktunya", "Jelaslah kita perlu baterai tenaga",
+         "Semuanya lelah, jadi tak perlu mengeluh", "Biasa saja, lakukan apa yang kamu bisa"],
+        ["Nah, sekarang sudah tahukan batu bisa lelah?", "Apa sekarang boleh aku panggil kamu gila?",
+         "Tak apa, kar'na dunia ini melelahkan dan bikin gila"]
+      ],
+      sela: {
+        8: { label: "Sebuah batu retak yang mulai hancur menjadi kerikil", svg: SELA_KERIKIL }
+      },
+      /* Kebalikan "Angga": huruf menipis bait demi bait, batu menua dan terkikis.
+         Baris "Batu dibelah" terbelah setelah kata "dibelah". */
+      css: `
+[data-puisi="batu-yang-lelah"] .bait{font-weight:calc(500 - var(--b) * 22)}
+[data-puisi="batu-yang-lelah"] [data-g="21"] .kata:nth-of-type(2),[data-puisi="batu-yang-lelah"] [data-g="22"] .kata:nth-of-type(2){display:inline-block;margin-right:1.8em}
+[data-puisi="batu-yang-lelah"] .sela{max-width:260px;margin:2.8em auto 1em}`
     },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
