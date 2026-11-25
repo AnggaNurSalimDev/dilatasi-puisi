@@ -170,12 +170,19 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
   };
   const kakiAngkat = (x, y, deg) => {
     const [kx, ky] = putar(0.5 * SKALA, 70 * SKALA, deg);
-    const ax = x + kx, ay = y + ky, ujung = [ax - 7, ay + 18];
-    const titik = [0, 1, 2].map((i) =>
-      `<circle cx="${ujung[0] + 1.5 + i * 1.5}" cy="${ujung[1] + 6 + i * 6}" r="1.5" fill="currentColor"/>`).join("");
+    const ax = x + kx, ay = y + ky;                    // lutut di dunia
+    const arah = [5, 18], pj = Math.hypot(...arah);    // satu arah lurus: garis lalu titik-titik
+    const ux = arah[0] / pj, uy = arah[1] / pj;
+    if (!(uy > 0) || !(TANAH > ay)) return "";         // guard: harus mengarah ke tanah
+    const garis = 18;                                  // panjang bagian garis padat
+    const sisa = (TANAH - ay) / uy;                    // jarak lutut → tanah di sepanjang arah
+    const titik = [];
+    for (let t = garis + 6; t < sisa - 5; t += 6)
+      titik.push(`<circle cx="${(ax + ux * t).toFixed(1)}" cy="${(ay + uy * t).toFixed(1)}" r="1.5" fill="currentColor"/>`);
+    const darat = ax + ux * sisa;
     return `<g transform="translate(${x} ${y}) rotate(${deg}) scale(${SKALA})"><path d="${KAKI_D}" fill="url(#ba-lengan)"/></g>
-      <line x1="${ax}" y1="${ay - 3}" x2="${ujung[0]}" y2="${ujung[1]}" stroke="url(#ba-coret-angkat)" stroke-width="2.2" stroke-linecap="round"/>
-      ${titik}<ellipse cx="${ujung[0] + 5}" cy="${TANAH}" rx="7" ry="1.8" fill="currentColor" opacity=".18"/>`;
+      <line x1="${ax}" y1="${ay - 3}" x2="${(ax + ux * garis).toFixed(1)}" y2="${(ay + uy * garis).toFixed(1)}" stroke="url(#ba-coret-angkat)" stroke-width="2.2" stroke-linecap="round"/>
+      ${titik.join("")}<ellipse cx="${darat.toFixed(1)}" cy="${TANAH}" rx="7" ry="1.8" fill="currentColor" opacity=".18"/>`;
   };
   const TUBUH = `<path d="M70 72 C88 58 118 60 140 66 C165 72 200 70 228 58 C240 50 262 34 280 24 L284 11 L290 22
       C299 30 312 48 320 64 C322 72 314 77 306 73 C300 69 294 65 290 62 C282 74 274 88 266 102
