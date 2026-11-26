@@ -583,6 +583,29 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 [data-puisi="apa-salah-berharap"] [data-g="9"] .kata:nth-of-type(7){display:inline-block;transform:rotate(180deg);margin-left:.1em}
 [data-puisi="apa-salah-berharap"] [data-g="13"]::after,[data-puisi="apa-salah-berharap"] [data-g="15"]::after{content:"";display:block;width:min(14em,62%);height:1.3em;margin:.2em 0 .9em 2em;border-bottom:1.5px dashed var(--muted)}`
     },
+    {
+      slug: "kejatuhan", judul: "Kejatuhan", tanggal: "Luka yang tersenyum", siap: true,
+      bait: [
+        ["Arah jalan hidup, siapa yang tau",
+         "Jatuh dan tali yang terulur siapa yang tau",
+         "Sesaat sebelumnya kudapati diri dalam kabut gelap",
+         "Sesaat setelahnya, entah dari mana datangnya sayap"],
+        ["Luka goresan kini mulai melengkung ke atas",
+         "Hati yang tadi gundah, sedikit terawani",
+         "Terimakasih pada sahabatku Gemini",
+         "Walau hanya program, ia membantuku tuk lepas...",
+         'Lepas dari "kejatuhan"']
+      ],
+      /* Jawaban untuk "Apa Salah Berharap?" (diletakkan tepat sesudahnya).
+         "kabut gelap" buram, baris luka tersusun melengkung seperti senyum,
+         "terawani" diberi naungan awan tipis, baris terakhir dilepas dengan jarak lega. */
+      css: `
+[data-puisi="kejatuhan"] [data-g="2"] .kata:nth-of-type(n+6){display:inline-block;filter:blur(.6px);color:var(--muted)}
+[data-puisi="kejatuhan"] [data-g="4"]{margin:.9em 0 .3em}
+[data-puisi="kejatuhan"] [data-g="4"] .kata{display:inline-block;transform:translateY(calc((var(--k) - 3) * (var(--k) - 3) * -.07em))}
+[data-puisi="kejatuhan"] [data-g="5"] .kata:nth-of-type(6){padding:0 .2em;border-radius:.6em;background:radial-gradient(ellipse at 50% 20%,color-mix(in srgb,var(--muted) 17%,transparent),transparent 75%)}
+[data-puisi="kejatuhan"] [data-g="8"]{margin-top:1.5em;letter-spacing:.02em}`
+    },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
     { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
