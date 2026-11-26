@@ -52,6 +52,8 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 .ruang .sela{margin:2.4em auto;max-width:540px;color:var(--ink)}
 .ruang .sela svg{display:block;width:100%;height:auto;overflow:visible}
 .ruang.polos .sela{display:none}
+.catatan-puisi{color:var(--muted);margin:1.2em 0 0;max-width:34em}
+.catatan-puisi:empty{display:none}
 .alat{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;border-top:1px solid var(--rule);padding-top:20px;margin-top:24px}
 .tombol{font:inherit;background:none;color:var(--ink);border:1px solid var(--rule);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
 .tombol[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -90,6 +92,7 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
       <span class="ket ui" id="p-tgl"></span>
     </header>
     <article class="ruang" id="ruang"></article>
+    <p class="catatan-puisi ui" id="p-catatan"></p>
     <div class="alat ui">
       <button class="tombol" id="polos" type="button" aria-pressed="false">Baca polos</button>
       <div class="jalan" id="jalan"></div>
@@ -606,6 +609,42 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 [data-puisi="kejatuhan"] [data-g="5"] .kata:nth-of-type(6){padding:0 .2em;border-radius:.6em;background:radial-gradient(ellipse at 50% 20%,color-mix(in srgb,var(--muted) 17%,transparent),transparent 75%)}
 [data-puisi="kejatuhan"] [data-g="8"]{margin-top:1.5em;letter-spacing:.02em}`
     },
+    {
+      slug: "berita-lucu", judul: "Berita Lucu", tanggal: "Tawa yang jadi marah", siap: true,
+      catatan: "Ledakan emosi spontan saat membaca berita viral, Mei 2025.",
+      bait: [
+        ["Hahaha hahaha hahaha",
+         "Hahah hah aduh... huhuhu",
+         "Apa kamu ingin tau apa yang lucu?",
+         "Berita negri ini, biar kuberitahu"],
+        ["Selayaknya pagi pada umumnya di hari sabtu",
+         "Punggung merebah disandaran kursi yang empuk",
+         "Menikmati waktu, kubuka Instagram tuk cari sesuatu",
+         "Dan aku dapat, berita negri ini yang lucu"],
+        ["Tak kusangka, mungkin para pendiri bangsapun tak menyangka",
+         "6 Polisi positif narkoba dihukum sholat 5 waktu",
+         "Aduuhh sungguh lucu negriku",
+         "Hahaha hahaha"],
+        ["Ada-ada saja gebrakan mereka",
+         "Sedikit saran bagi kalian yang sering bungkam suara",
+         "Mungkin pencabutan pangkat lebih baik bagi mereka",
+         "Agar citra kalian tak lagi jenaka"],
+        ["Hukum bukan stand up comedy!",
+         "Hukum bukan untuk lelucon!",
+         "Hukum dua kali para penegak hukum",
+         "Karena ini pelecehan terhadap hukum bangsa!"]
+      ],
+      /* Tawa melompat → "huhuhu" merosot → baris berita sebagai kutipan judul berita →
+         bait terakhir merah gelap, tebal, diam. Kata "sholat" sengaja tanpa efek. */
+      css: `
+[data-puisi="berita-lucu"] [data-g="0"] .kata,[data-puisi="berita-lucu"] [data-g="11"] .kata,[data-puisi="berita-lucu"] [data-g="1"] .kata:nth-of-type(-n+2){display:inline-block}
+[data-puisi="berita-lucu"] [data-g="0"] .kata:nth-of-type(odd),[data-puisi="berita-lucu"] [data-g="11"] .kata:nth-of-type(odd),[data-puisi="berita-lucu"] [data-g="1"] .kata:nth-of-type(1){transform:translateY(-.18em)}
+[data-puisi="berita-lucu"] [data-g="0"] .kata:nth-of-type(even),[data-puisi="berita-lucu"] [data-g="11"] .kata:nth-of-type(even),[data-puisi="berita-lucu"] [data-g="1"] .kata:nth-of-type(2){transform:translateY(.1em)}
+[data-puisi="berita-lucu"] [data-g="0"],[data-puisi="berita-lucu"] [data-g="11"]{line-height:2}
+[data-puisi="berita-lucu"] [data-g="1"] .kata:nth-of-type(4){display:inline-block;transform:translateY(.22em);opacity:.6;font-size:.9em}
+[data-puisi="berita-lucu"] [data-g="9"]{width:fit-content;max-width:100%;margin:.5em 0 .6em;padding:.5em .9em;text-indent:0;font-family:"Inter",system-ui,sans-serif;font-size:.88em;font-weight:500;border:1px solid var(--rule);border-left:3px solid var(--ink);border-radius:4px}
+[data-puisi="berita-lucu"] [data-b="4"]{color:light-dark(#8a1f1f,#e58a7e);font-weight:600;font-size:1.04em}`
+    },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
     { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
@@ -678,6 +717,7 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
     $("#tanda-contoh").innerHTML = p.contoh ? `<span class="tanda ui">Puisi contoh untuk menguji ruang</span>` : "";
     $("#p-judul").textContent = p.judul;
     $("#p-tgl").textContent = p.tanggal;
+    $("#p-catatan").textContent = typeof p.catatan === "string" ? p.catatan : "";
     const ruang = $("#ruang");
     ruang.setAttribute("data-puisi", p.slug);
     ruang.innerHTML = bangunRuang(p);
