@@ -556,6 +556,33 @@ h1{font-weight:400;font-size:clamp(34px,6vw,48px);line-height:1.05;letter-spacin
 [data-puisi="batu-yang-lelah"] [data-g="21"] .kata:nth-of-type(2),[data-puisi="batu-yang-lelah"] [data-g="22"] .kata:nth-of-type(2){display:inline-block;margin-right:1.8em}
 [data-puisi="batu-yang-lelah"] .sela{max-width:260px;margin:2.8em auto 1em}`
     },
+    {
+      slug: "apa-salah-berharap", judul: "Apa Salah Berharap?", tanggal: "Pertanyaan tanpa jawaban", siap: true,
+      bait: [
+        ['Motivator berkata "Dunia akan berjalan sesuai yang kau harapkan"',
+         "Berbekal ilmu dari internet, aku menunggangi harapan",
+         "Tapi ada yang membuatku cemas",
+         "Tiap kali kuberharap, kejadiannya selalu menggigit ganas"],
+        ["Pernah aku tak berharap, kejutan sayap yang kudapat",
+         "Terbang menuju awan, badai tiba-tiba menyerang",
+         "Apa ini tanda aku tak dapat berkat?",
+         "Atau cara berpikirku yang kurang?"],
+        ["Kalau ya... bagaimana cara takdir bekerja?",
+         "Apa aku harus berpikir dengan cara terbalik?",
+         "Jika ya... bagaimana kondisi mentalku akan membaik?",
+         "Berpikir keburukan akan selalu datang sambil berharap kebalikannya yang akan datang"],
+        ["Itu aneh",
+         "Apa tak ada obat untuk aku yang gundah?",
+         "Tidak ada?",
+         "Jadi... apa salah aku berharap?"]
+      ],
+      /* Kata "ganas" tergigit, kata "terbalik" diputar 180°,
+         dan dua pertanyaan di bait 4 diikuti garis jawaban yang dibiarkan kosong. */
+      css: `
+[data-puisi="apa-salah-berharap"] [data-g="3"] .kata:nth-of-type(7){display:inline-block;padding-right:.05em;-webkit-mask-image:radial-gradient(circle .34em at 102% 58%,transparent 97%,#000 100%);mask-image:radial-gradient(circle .34em at 102% 58%,transparent 97%,#000 100%)}
+[data-puisi="apa-salah-berharap"] [data-g="9"] .kata:nth-of-type(7){display:inline-block;transform:rotate(180deg);margin-left:.1em}
+[data-puisi="apa-salah-berharap"] [data-g="13"]::after,[data-puisi="apa-salah-berharap"] [data-g="15"]::after{content:"";display:block;width:min(14em,62%);height:1.3em;margin:.2em 0 .9em 2em;border-bottom:1.5px dashed var(--muted)}`
+    },
     { slug: "kebebasan-katanya", judul: "Kebebasan katanya…", tanggal: "12 Okt 2026", siap: false },
     { slug: "rindu-berat", judul: "Rindu Berat", tanggal: "12 Okt 2026", siap: false },
     { slug: "aku-cdih", judul: "Aku Cdih", tanggal: "12 Okt 2026", siap: false }
